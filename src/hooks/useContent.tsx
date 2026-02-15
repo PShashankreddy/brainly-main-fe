@@ -2,7 +2,7 @@ import { useEffect,useState } from "react";
 import axios from "axios";
 import { BACKEND_URL } from "../config";
 
-export function useContent() 
+export function useContent(refresh?: number) 
 {
   const [contents,setContents]=useState([]);
 
@@ -15,7 +15,7 @@ export function useContent()
         .then((response)=>{
            setContents(response.data.content);
      })
-  },[])
+  },[refresh])
 
   return contents;
 }

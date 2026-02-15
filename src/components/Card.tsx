@@ -4,13 +4,14 @@ import { DeleteIcon } from "../icons/DeleteIcon";
 import { useEffect, useRef } from "react";
 
 interface CardProps {
+  id: string;
   title: string;
   link: string;
-  // backend may send `tweet` while some parts use `twitter` — accept both
   type: "tweet" | "twitter" | "youtube";
+  onDelete?: () => void;
 }
 
-export function Card({ title, link, type }: CardProps) 
+export function Card({ id, title, link, type, onDelete }: CardProps) 
 {
   const tweetContainerRef = useRef<HTMLDivElement | null>(null);
 
@@ -103,7 +104,22 @@ export function Card({ title, link, type }: CardProps)
               <ShareIcon />
             </a>
 
-            <div className="text-gray-500">
+            <div className="text-gray-500 cursor-pointer" onClick={async () => {
+              if (confirm('Delete this content?')) {
+                try {
+                  await axios.delete(`${BACKEND_URL}/api/v1/content`, {
+                    data: { contentId: id },
+                    headers: {
+                      Authorization: `Bearer ${localStorage.getItem('token')}`,
+                    },
+                  });
+                  onDelete?.();
+                } catch (error) {
+                  console.error('Delete error:', error);
+                  alert('Failed to delete');
+                }
+              }
+            }}>
               <DeleteIcon />
             </div>
           </div>
