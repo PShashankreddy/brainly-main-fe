@@ -1,73 +1,96 @@
-# React + TypeScript + Vite
+# 🧠 Brainly — Your Second Brain
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+> **Stop forgetting things. Start building your knowledge base.**
 
-Currently, two official plugins are available:
+Brainly is a personal knowledge hub where you can save, organize, and share content from across the internet — tweets, YouTube videos, articles, links — all in one clean, fast dashboard.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+---
 
-## React Compiler
+## ✨ What it does
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- 📌 **Save** tweets, YouTube videos, articles, and links in seconds
+- 🏷️ **Organize** your content by type — filter by Twitter, YouTube, Documents, and more
+- 🔗 **Share** your entire brain with a single shareable link
+- 🔒 **Secure** — JWT-based auth keeps your data yours
 
-## Expanding the ESLint configuration
+---
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## 🚀 Getting Started
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+```bash
+# Install dependencies
+npm install
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+# Start the dev server
+npm run dev
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+Then open [http://localhost:5173](http://localhost:5173) in your browser.
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+---
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+## 🛠️ Tech Stack
+
+| Layer     | Technology                   |
+| --------- | ---------------------------- |
+| Framework | React + TypeScript (Vite)    |
+| Styling   | Tailwind CSS                 |
+| Routing   | React Router v6              |
+| HTTP      | Axios                        |
+| Auth      | JWT (stored in localStorage) |
+
+---
+
+## 📁 Project Structure
+
 ```
+src/
+├── pages/
+│   ├── Landing.tsx       # Public landing page
+│   ├── SignIn.tsx        # Login page
+│   ├── SignUp.tsx        # Registration page
+│   └── Dashboard.tsx     # Main app (protected)
+├── components/
+│   ├── Sidebar.tsx       # Navigation sidebar
+│   ├── Card.tsx          # Content card
+│   ├── Button.tsx        # Reusable button
+│   └── CreateContentModal.tsx
+├── hooks/
+│   └── useContent.ts     # Fetches saved content
+└── App.tsx               # Routes & auth guard
+```
+
+---
+
+## 🔐 Auth Flow
+
+1. Sign up / Sign in → JWT token saved to `localStorage`
+2. `/dashboard` is protected — redirects to `/signin` if not logged in
+3. Visiting `/` always shows the landing page (no auto-redirect)
+4. Logout clears the token and returns to the landing page
+
+---
+
+## 🌐 Backend
+
+This is the **frontend** repo. It connects to a separate REST API backend.  
+Set your backend URL in `src/config.ts`:
+
+```ts
+export const BACKEND_URL = "http://localhost:3000";
+```
+
+---
+
+## 📸 Pages
+
+| Page      | Route        | Access           |
+| --------- | ------------ | ---------------- |
+| Landing   | `/`          | Public           |
+| Sign In   | `/signin`    | Public           |
+| Sign Up   | `/signup`    | Public           |
+| Dashboard | `/dashboard` | 🔒 Auth required |
+
+---
+
+> Built with ❤️ — because your ideas deserve a better home than browser bookmarks.
