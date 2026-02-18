@@ -2,6 +2,8 @@ import { NoteBookIcon } from "../icons/NoteBookIcon";
 import { ShareIcon } from "../icons/ShareIcon";
 import { DeleteIcon } from "../icons/DeleteIcon";
 import { useEffect, useRef } from "react";
+import axios from "axios";
+import { BACKEND_URL } from "../config";
 
 interface CardProps {
   id: string;
@@ -107,16 +109,19 @@ export function Card({ id, title, link, type, onDelete }: CardProps)
             <div className="text-gray-500 cursor-pointer" onClick={async () => {
               if (confirm('Delete this content?')) {
                 try {
-                  await axios.delete(`${BACKEND_URL}/api/v1/content`, {
-                    data: { contentId: id },
+                  const response = await axios.delete(`${BACKEND_URL}/api/v1/content`, {
                     headers: {
                       Authorization: `Bearer ${localStorage.getItem('token')}`,
                     },
+                    data: { 
+                      contentId: id 
+                    }
                   });
+                  console.log('Delete successful:', response);
                   onDelete?.();
-                } catch (error) {
-                  console.error('Delete error:', error);
-                  alert('Failed to delete');
+                } catch (error: any) {
+                  console.error('Delete error:', error.response?.data || error.message);
+                  alert(`Failed to delete: ${error.response?.data?.message || error.message}`);
                 }
               }
             }}>

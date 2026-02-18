@@ -30,7 +30,7 @@ export function SignIn()
     const jwt=response.data.token;
     localStorage.setItem("token",jwt);
     navigate("/dashboard");
-    //redirect the user 
+    //redirect the user to dashboard 
   } catch (err) {
     console.error(err);
     alert("Signup failed");
